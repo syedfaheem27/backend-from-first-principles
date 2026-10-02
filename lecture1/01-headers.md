@@ -146,4 +146,4 @@ These ensure both sides know how to interpret and process the payload.
 **Why does ETag come up in representational headers?**
 
 - Because computing ETag for the same data but in xml and json would be different.
-- SO it is purely presentational.
+- So it is purely presentational.
