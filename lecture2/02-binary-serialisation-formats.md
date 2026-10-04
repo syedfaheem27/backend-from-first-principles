@@ -127,3 +127,61 @@ binary bytes
 - 61 67 65: Decodes it and gets age
 - 19 => 25
 - Thus, the server gets an object with a single entry with key as age and value as 25.
+
+
+---
+
+## Avro
+
+- `Apache Avro` is a binary serialization system originally developed
+  for Hadoop and commonly used with systems like Kafka.
+- Similar to protobuff in the sense, we define a schema which must be
+  known to the client and the server.
+
+
+- So, the keys name and age won't be needed to sent in requests again and again.
+- The difference from protobuff is that it doesn't need to send field tags.
+
+- Suppose we have:
+```javascript
+{
+  "name": "Faheem",
+  "age": 25
+}
+```
+
+- An Avro schema looks like this.
+```avro
+{
+  "type": "record",
+  "name": "User",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "int"
+    }
+  ]
+}
+```
+
+---
+
+## BSON
+- Binary JSON. Similar to JSON but employs richer data types.
+- It encodes data in binary bytes instead of plain text.
+- Mostly used by mongo db as it's data serialisation format.
+
+---
+
+### Flat Buffers
+- This was specifically designed for game development to rapidly read data without
+  actually deserialising it but just reading the raw bytes.
+- So, It is designed so that you can read the serialized bytes directly,
+  without first deserializing the entire object into another in-memory object.
+- A schema needs to be defined and compiled ahead using the `flatc` compiler.
+- Data is read directly from the byte buffer and figured out.
+  (Do not need to get into the depths)
