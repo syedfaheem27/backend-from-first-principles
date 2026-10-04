@@ -25,6 +25,7 @@
 - Uses headers - `Connection: keep-alive` and `Connection: close`
 - The transport layer ensures reliable transfer and then the application layer parses the data to pass the whole request to the server rather than a part of the request because the transport layer transfers data in packets.
 - For large data the content is streamed into chunks which then the application layer parses and forwards to the cient or the server.
+- Also, for multipart form data, the data is huge so it is send in parts but there is a delimiter to separate multiple, distinct payloads within a single HTTP request body.
 
 ## SSL/TLS and HTTPS
 
