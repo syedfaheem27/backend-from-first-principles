@@ -50,17 +50,80 @@ message Address {
 }
 ```
 
-- field number is 1.
+- field number = 1.
 - Now, with the protobuf specification which defines the mapping, we
-  figure out the wire number.
+  figure out the wire number(0 for VarInt).
 - Now, to let the server sides protobuff decoder know the wire number, we use
   a tag which is calculated as `Tag = (field_number << 3) | wire_type`.
 - The first 3 bits represent the wire type and then the others represent the
   field number.
 - So tag for the above data would be `1 <<< 3 | 0` => 08`(0 - varint => 25 is a 32bit)`
-- Now 25 is varInt which is 19 in hex notation.
-- Therefore, the transferred data would be 08 19
+- Now 25 is VarInt which is 19 in hex notation.
+- Therefore, the transferred data would be `08 19`
 
 ---
 
 ## Message Pack
+
+- It's like JSON, but fast and small.
+- `Schemaless and self-describing:` the same data model as
+  JSON (maps, arrays, strings, numbers, booleans, nil), plus
+  binary blobs and extension types.
+- Every value starts with a type byte, so you can decode any
+  MessagePack payload with no schema, exactly like JSON.
+- Example to understand, how this works.
+
+- Suppose we want to send
+```javascript
+const data = {
+  age: 25
+};
+```
+
+- Serialisation
+```
+JavaScript object
+      ↓
+MessagePack encoder
+      ↓
+binary bytes
+```
+
+- **Step 1:** Identify the object type
+    - The top-level value is an object.
+    - MessagePack represents JavaScript objects as a map.
+    - MessagePack has a family of binary values called `fixmap`.
+    - The fixmap helps get the fixed byte
+    - For a map containing 1–15 entries, the encoding is:
+      `1000 | number_of_entries` => 1000 | 0001 (only one entry => age) = 1001
+      So, the 1st byte is 0x81
+      0x81 => tells the message pack decoder, that the next thing is a map with
+      a single entry.
+
+- **Step 2:** Encode the key "age"
+    - "age" is a string with 3 characters `a g e`.
+    - MessagePack has a compact representation called `fixstr` for short strings.
+    - Its format is: 101xxxxx where the lower bytes contain the string length
+    - so for age => 10100011 => 0xA3 => next 3 bytes are string
+    - Then we put the UTF-8 bytes for age:
+    ```
+    a = 61
+    g = 67
+    e = 65
+    ```
+    - So far the data looks like this `0x81 0xA3 61 67 65`
+
+- **Step3:** Encode the value 25
+    - MessagePack has a special compact representation for small
+      positive integers called positive `fixint`.
+    - Positive fixInts are 00xxxxxx for values 0-127
+    - 25 decimal = 0x19
+
+- So the complete MessagePack representation is: `81 A3 61 67 65 19`
+- On the server side, the message pack decoder does the following
+- Reads from left to right.
+- 81: an object with a single entry
+- A3: the key is a string of length 3.
+- 61 67 65: Decodes it and gets age
+- 19 => 25
+- Thus, the server gets an object with a single entry with key as age and value as 25.
