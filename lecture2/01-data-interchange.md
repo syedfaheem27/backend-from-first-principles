@@ -18,7 +18,7 @@
     - BSON
 - Now imagine a client side application written in javascript wants to send some
   data to the server in the request body to the server. The data is first serialised
-  into the agree data interchange formats between the client and the server and then
+  into the agreed data interchange formats between the client and the server and then
   transmitted. The serialisation happens at the application layer. On the server side
   the data is deserialised back and converted into the data structure that the server
   understands.

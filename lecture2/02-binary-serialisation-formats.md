@@ -1,9 +1,9 @@
 # Binary serialisation data interchange formats
 
 - **Why JSON cannot be always used as a data interchange format?**
-- Size cost: a lot of fields are repeated, everything is represented as
+- **Size cost**: a lot of fields are repeated, everything is represented as
   text. Even a number 1234567890 takes 10 bytes rather than 4.
-- Weak types: Only string / number / boolean / null / array / object.
+- **Weak types**: Only string / number / boolean / null / array / object.
   No floats, int etc.
 - No enforced contract.
 
@@ -16,7 +16,7 @@
 
 - You define a schema first in a `.proto` file and then the client and the
   server adhere to that schema.
-- Bytes are sent directly with certain nuisances like field numbers, wire types
+- Bytes are sent directly with certain nuisances like field numbers, `wire types`
   where the former sets the order of the data according to some schema and the
   wire type tells the protobuff decoder on how to decode the data recieved.
 
@@ -36,7 +36,7 @@ message Address {
 }
 ```
 
-- Certain wire types and what they mean => 0 - varint, 1 - fixed 8 bytes etc.
+- Certain `wire types` and what they mean => 0 - varInt, 1 - fixed 8 bytes etc.
 - Protobuff won't send id, name, active, tags, address in the data.
 - The protobuff representation conceptually becomes: `[field tag][field value]`
 
