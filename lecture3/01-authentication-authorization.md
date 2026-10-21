@@ -58,3 +58,38 @@ So magic-link tokens and API keys are stored as plain SHA-256 hashes.
 ![HMAC](../images/HMAC.jpeg)
 
 ![TOTP](../images/TOTP.jpeg)
+
+---
+
+- Before jumping into asymmetric encryption we need to understand the difference between
+  `signing` and `encryption`.
+- `Signing: ` Signing proves authenticity and integrity(ki mai hi hun jisney data bheja aur
+  data ke saath koi tampering nahi ki gayi while being in transit)
+- `Encryption: ` Encryption provides confidentiality.
+
+---
+
+- `Asymmetric encryption: ` There are two keys - a public and a private key pair.
+  The private key remains with you and the public key is shared and only the corresponding
+  public key can decrypt data encrypted via the private key.
+- Used by: `passkeys`, `SSH keys`, `TLS certificates`, `smart cards`,
+  `JWTs signed with RS256/ES256`.
+
+**Passkeys**
+
+![PassKeys](../images/passkeys.png)
+
+**SSH**
+
+![SSH](../images/ssh_working.png)
+
+**TLS**
+
+![SSH](../images/tls_working.png)
+
+**Smart Cards**
+
+The same thing happens with the smart cards. The card has the public/private key stored securely
+in it. A digital certificate is presented whose authenticity is verified by the card reader
+against trusted issuers. Then the card reader sends a challenge and the smart card uses its
+private key to sign it and prove its authenticity.
