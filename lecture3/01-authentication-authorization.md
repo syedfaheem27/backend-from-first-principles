@@ -74,6 +74,8 @@ So magic-link tokens and API keys are stored as plain SHA-256 hashes.
   public key can decrypt data encrypted via the private key.
 - Used by: `passkeys`, `SSH keys`, `TLS certificates`, `smart cards`,
   `JWTs signed with RS256/ES256`.
+- `Strength:` The server only stores the public key and even if the db gets compromised,
+  the attacker can do nothing.
 
 **Passkeys**
 
