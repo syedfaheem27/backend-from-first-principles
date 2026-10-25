@@ -53,7 +53,7 @@ So magic-link tokens and API keys are stored as plain SHA-256 hashes.
 
 ### Key Images for Understanding Symmetric Encryption
 
-![TLS Handshake](../images/3way_handshake.jpeg)
+![Diffie-Hellman Exchange](../images/DH_Exchange.jpeg)
 
 ![HMAC](../images/HMAC.jpeg)
 
@@ -87,7 +87,9 @@ So magic-link tokens and API keys are stored as plain SHA-256 hashes.
 
 **TLS**
 
-![SSH](../images/tls_working.png)
+![TLS](../images/tls_working.png)
+
+![Diffie-Hellman inside the TLS 1.3 Handshake](../images/DH_TLS_Handshake.png)
 
 **Smart Cards**
 
